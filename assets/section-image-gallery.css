@@ -1,0 +1,294 @@
+.image-gallery--full-width {
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
+
+@media screen and (min-width: 750px) {
+  .image-gallery--full-width {
+    padding-left: 3rem;
+    padding-right: 3rem;
+  }
+}
+
+.image-gallery__header {
+  margin-bottom: 3rem;
+}
+
+.image-gallery__title {
+  margin: 0;
+}
+
+.image-gallery__description {
+  margin-top: 1rem;
+}
+
+.image-gallery-wrapper {
+  display: block;
+}
+
+.image-gallery {
+  display: grid;
+  grid-template-columns: repeat(var(--gallery-columns-mobile, 2), minmax(0, 1fr));
+  gap: var(--gallery-gap-mobile, 8px);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+@media screen and (min-width: 750px) {
+  .image-gallery {
+    grid-template-columns: repeat(var(--gallery-columns-desktop, 4), minmax(0, 1fr));
+    gap: var(--gallery-gap-desktop, 12px);
+  }
+}
+
+.image-gallery--mosaic {
+  grid-auto-flow: dense;
+}
+
+.image-gallery__item {
+  min-width: 0;
+}
+
+.image-gallery__figure {
+  margin: 0;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.image-gallery__media {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  aspect-ratio: var(--gallery-tile-ratio, 1 / 1);
+  border-radius: var(--media-radius);
+  border: var(--media-border-width) solid rgba(var(--color-foreground), var(--media-border-opacity));
+  background-color: rgba(var(--color-foreground), 0.04);
+}
+
+.image-gallery--mosaic .image-gallery__media {
+  height: 100%;
+}
+
+/* Fallback if mosaic is selected while image_ratio is set to 'adapt' */
+.image-gallery--mosaic .image-gallery__item--1x1 .image-gallery__media {
+  aspect-ratio: var(--gallery-tile-ratio, 1 / 1);
+}
+
+.image-gallery--adapt .image-gallery__media--adapt {
+  height: auto;
+}
+
+.image-gallery__link,
+.image-gallery__trigger {
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  text-decoration: none;
+  color: inherit;
+}
+
+.image-gallery__trigger:focus-visible,
+.image-gallery__link:focus-visible {
+  outline: 0.3rem solid rgb(var(--color-foreground));
+  outline-offset: -0.3rem;
+  box-shadow: inset 0 0 0 0.5rem rgb(var(--color-background));
+}
+
+.image-gallery__img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* Do not set object-position here so Shopify's inline focal_point style applies */
+  transition: transform 0.35s ease;
+}
+
+.image-gallery__link:hover .image-gallery__img,
+.image-gallery__trigger:hover .image-gallery__img {
+  transform: scale(1.03);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .image-gallery__img {
+    transition: none;
+  }
+
+  .image-gallery__link:hover .image-gallery__img,
+  .image-gallery__trigger:hover .image-gallery__img {
+    transform: none;
+  }
+}
+
+/* Tiled Mosaic spans */
+@media screen and (max-width: 749px) {
+  .image-gallery--mosaic .image-gallery__item--2x1,
+  .image-gallery--mosaic .image-gallery__item--2x2 {
+    grid-column: span var(--gallery-columns-mobile, 2);
+  }
+
+  .image-gallery--mosaic .image-gallery__item--1x2 {
+    grid-row: span 2;
+  }
+
+  .image-gallery--mosaic .image-gallery__item--2x1 .image-gallery__media {
+    aspect-ratio: 2 / 1;
+  }
+
+  .image-gallery--mosaic .image-gallery__item--2x2 .image-gallery__media {
+    aspect-ratio: 1 / 1;
+  }
+}
+
+@media screen and (min-width: 750px) {
+  .image-gallery--mosaic .image-gallery__item--2x1 {
+    grid-column: span 2;
+    grid-row: span 1;
+  }
+
+  .image-gallery--mosaic .image-gallery__item--1x2 {
+    grid-column: span 1;
+    grid-row: span 2;
+  }
+
+  .image-gallery--mosaic .image-gallery__item--2x2 {
+    grid-column: span 2;
+    grid-row: span 2;
+  }
+
+  .image-gallery--mosaic .image-gallery__item--2x1 .image-gallery__media,
+  .image-gallery--mosaic .image-gallery__item--1x2 .image-gallery__media,
+  .image-gallery--mosaic .image-gallery__item--2x2 .image-gallery__media {
+    aspect-ratio: auto;
+  }
+}
+
+/* Captions */
+.image-gallery__caption {
+  margin-top: 0.8rem;
+  font-size: 1.3rem;
+  line-height: 1.4;
+  color: rgb(var(--color-foreground));
+}
+
+.image-gallery__caption--overlay {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin-top: 0;
+  padding: 2.8rem 1.2rem 1rem;
+  color: #ffffff;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7);
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.84) 0%,
+    rgba(0, 0, 0, 0.65) 70%,
+    rgba(0, 0, 0, 0) 100%
+  );
+  pointer-events: none;
+  border-bottom-left-radius: var(--media-radius);
+  border-bottom-right-radius: var(--media-radius);
+}
+
+/* Lightbox */
+.image-gallery__lightbox {
+  border: 0;
+  padding: 0;
+  margin: auto;
+  max-width: 92vw;
+  max-height: 92vh;
+  width: auto;
+  background: transparent;
+  overflow: visible;
+}
+
+.image-gallery__lightbox::backdrop {
+  background: rgba(0, 0, 0, 0.82);
+  backdrop-filter: blur(4px);
+}
+
+.image-gallery__lightbox-inner {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.2rem;
+}
+
+.image-gallery__lightbox-figure {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.image-gallery__lightbox-img {
+  display: block;
+  max-width: 82vw;
+  max-height: 82vh;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  border-radius: var(--media-radius);
+}
+
+.image-gallery__lightbox-caption {
+  margin-top: 1rem;
+  color: #ffffff;
+  text-align: center;
+  font-size: 1.4rem;
+}
+
+.image-gallery__lightbox-close,
+.image-gallery__lightbox-nav {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 4.4rem;
+  height: 4.4rem;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  background: rgba(0, 0, 0, 0.72);
+  color: #ffffff;
+  font-size: 2.4rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.image-gallery__lightbox-close:hover,
+.image-gallery__lightbox-nav:hover {
+  background: rgba(0, 0, 0, 0.9);
+}
+
+.image-gallery__lightbox-close:focus-visible,
+.image-gallery__lightbox-nav:focus-visible {
+  outline: 0.3rem solid #ffffff;
+  outline-offset: 0.2rem;
+}
+
+.image-gallery__lightbox-close {
+  position: fixed;
+  top: 1.6rem;
+  right: 1.6rem;
+}
+
+@media screen and (max-width: 749px) {
+  .image-gallery__lightbox-nav {
+    width: 4rem;
+    height: 4rem;
+    font-size: 2.2rem;
+  }
+
+  .image-gallery__lightbox-img {
+    max-width: 72vw;
+  }
+}
